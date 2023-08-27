@@ -62,3 +62,68 @@ for index, row in merged_df.iterrows():
     else:
         print(f"{brand_name} dropped out of the top 5 in the recent month.")
 ```
+
+3. When considering average spend from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+   
+- STEP 1: Calculate Average Spend for 'Accepted' Receipts
+
+```
+SELECT AVG(totalSpent) AS avg_spend_accepted
+FROM Receipts
+WHERE rewardsReceiptStatus = 'Accepted';
+```
+
+- STEP 2: Calculate Average Spend for 'Rejected' Receipts
+```
+SELECT AVG(totalSpent) AS avg_spend_rejected
+FROM Receipts
+WHERE rewardsReceiptStatus = 'Rejected';
+```
+
+- STEP 3: Compare Average Spend
+```
+SELECT
+    CASE
+        WHEN AVG(CASE WHEN rewardsReceiptStatus = 'Accepted' THEN totalSpent ELSE 0 END) >
+             AVG(CASE WHEN rewardsReceiptStatus = 'Rejected' THEN totalSpent ELSE 0 END)
+        THEN 'Average spend from ''Accepted'' receipts is greater.'
+        WHEN AVG(CASE WHEN rewardsReceiptStatus = 'Accepted' THEN totalSpent ELSE 0 END) <
+             AVG(CASE WHEN rewardsReceiptStatus = 'Rejected' THEN totalSpent ELSE 0 END)
+        THEN 'Average spend from ''Rejected'' receipts is greater.'
+        ELSE 'Average spend from ''Accepted'' and ''Rejected'' receipts is equal.'
+    END AS comparison_result
+FROM Receipts
+WHERE rewardsReceiptStatus IN ('Accepted', 'Rejected');
+```
+4. When considering total number of items purchased from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+
+
+- STEP 1: Calculate Total Number of Items for 'Accepted' Receipts
+```
+SELECT SUM(purchasedItemCount) AS total_items_accepted
+FROM Receipts
+WHERE rewardsReceiptStatus = 'Accepted';
+```
+
+- STEP 2: Calculate Total Number of Items for 'Rejected' Receipts
+```
+SELECT SUM(purchasedItemCount) AS total_items_rejected
+FROM Receipts
+WHERE rewardsReceiptStatus = 'Rejected';
+```
+
+- STEP 3: Compare Total Number of Items
+```
+SELECT
+    CASE
+        WHEN SUM(CASE WHEN rewardsReceiptStatus = 'Accepted' THEN purchasedItemCount ELSE 0 END) >
+             SUM(CASE WHEN rewardsReceiptStatus = 'Rejected' THEN purchasedItemCount ELSE 0 END)
+        THEN 'Total number of items from ''Accepted'' receipts is greater.'
+        WHEN SUM(CASE WHEN rewardsReceiptStatus = 'Accepted' THEN purchasedItemCount ELSE 0 END) <
+             SUM(CASE WHEN rewardsReceiptStatus = 'Rejected' THEN purchasedItemCount ELSE 0 END)
+        THEN 'Total number of items from ''Rejected'' receipts is greater.'
+        ELSE 'Total number of items from ''Accepted'' and ''Rejected'' receipts is equal.'
+    END AS comparison_result
+FROM Receipts
+WHERE rewardsReceiptStatus IN ('Accepted', 'Rejected');
+```

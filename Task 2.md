@@ -135,6 +135,7 @@ SELECT DISTINCT userId
 FROM Users
 WHERE createdDate >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH);
 ```
+
 - STEP 2: Calculate Total Spend for Each Brand
 ```
 SELECT
@@ -149,9 +150,9 @@ ORDER BY total_spend DESC
 LIMIT 1;
 ```
 
-###6. Which brand has the most transactions among users who were created within the past 6 months?
+## 6. Which brand has the most transactions among users who were created within the past 6 months?
 
--STEP 1: Identify Users Created Within the Past 6 Months
+- STEP 1: Identify Users Created Within the Past 6 Months
 
 ```
 SELECT DISTINCT userId
@@ -159,7 +160,7 @@ FROM Users
 WHERE createdDate >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH);
 ```
 
--STEP 2: Calculate Total Transactions for Each Brand
+- STEP 2: Calculate Total Transactions for Each Brand
 
 ```
 SELECT

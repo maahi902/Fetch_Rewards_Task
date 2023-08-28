@@ -1,4 +1,4 @@
-## Task II: SQL Queries
+# Task II: SQL Queries
 
 ## 1. What are the top 5 brands by receipts scanned for the most recent month?
 

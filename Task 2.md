@@ -1,6 +1,6 @@
 ## Task II: SQL Queries
 
-1. What are the top 5 brands by receipts scanned for the most recent month?
+###1. What are the top 5 brands by receipts scanned for the most recent month?
 
 ```
 SELECT b.name AS brand_name, COUNT(*) AS receipts_scanned
@@ -12,7 +12,7 @@ ORDER BY receipts_scanned DESC
 LIMIT 5;
 ```
 
-2. How does the ranking of the top 5 brands by receipts scanned for the recent month compare to the ranking for the previous month?
+###2. How does the ranking of the top 5 brands by receipts scanned for the recent month compare to the ranking for the previous month?
 
 - STEP 1: Retrieve Data from the Recent Month
 ```
@@ -63,7 +63,7 @@ for index, row in merged_df.iterrows():
         print(f"{brand_name} dropped out of the top 5 in the recent month.")
 ```
 
-3. When considering average spend from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+###3. When considering average spend from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
    
 - STEP 1: Calculate Average Spend for 'Accepted' Receipts
 
@@ -95,8 +95,7 @@ SELECT
 FROM Receipts
 WHERE rewardsReceiptStatus IN ('Accepted', 'Rejected');
 ```
-4. When considering total number of items purchased from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
-
+###4. When considering total number of items purchased from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
 
 - STEP 1: Calculate Total Number of Items for 'Accepted' Receipts
 ```
@@ -126,4 +125,51 @@ SELECT
     END AS comparison_result
 FROM Receipts
 WHERE rewardsReceiptStatus IN ('Accepted', 'Rejected');
+```
+
+###5. Which brand has the most spend among users who were created within the past 6 months?
+
+- STEP 1: Identify Users Created Within the Past 6 Months
+```
+SELECT DISTINCT userId
+FROM Users
+WHERE createdDate >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH);
+```
+- STEP 2: Calculate Total Spend for Each Brand
+```
+SELECT
+    b.name AS brand_name,
+    SUM(r.totalSpent) AS total_spend
+FROM Brands b
+JOIN Receipts r ON b._id = r.rewardsReceiptItemList.brandId
+JOIN Users u ON r.userId = u._id
+WHERE u.createdDate >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH)
+GROUP BY b.name
+ORDER BY total_spend DESC
+LIMIT 1;
+```
+
+###6. Which brand has the most transactions among users who were created within the past 6 months?
+
+-STEP 1: Identify Users Created Within the Past 6 Months
+
+```
+SELECT DISTINCT userId
+FROM Users
+WHERE createdDate >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH);
+```
+
+-STEP 2: Calculate Total Transactions for Each Brand
+
+```
+SELECT
+    b.name AS brand_name,
+    COUNT(DISTINCT r._id) AS total_transactions
+FROM Brands b
+JOIN Receipts r ON b._id = r.rewardsReceiptItemList.brandId
+JOIN Users u ON r.userId = u._id
+WHERE u.createdDate >= DATE_SUB(CURRENT_DATE, INTERVAL 6 MONTH)
+GROUP BY b.name
+ORDER BY total_transactions DESC
+LIMIT 1;
 ```

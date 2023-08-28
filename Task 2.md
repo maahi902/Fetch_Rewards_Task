@@ -1,6 +1,6 @@
 ## Task II: SQL Queries
 
-### 1. What are the top 5 brands by receipts scanned for the most recent month?
+## 1. What are the top 5 brands by receipts scanned for the most recent month?
 
 ```
 SELECT b.name AS brand_name, COUNT(*) AS receipts_scanned
@@ -12,7 +12,7 @@ ORDER BY receipts_scanned DESC
 LIMIT 5;
 ```
 
-##2. How does the ranking of the top 5 brands by receipts scanned for the recent month compare to the ranking for the previous month?
+## 2. How does the ranking of the top 5 brands by receipts scanned for the recent month compare to the ranking for the previous month?
 
 - STEP 1: Retrieve Data from the Recent Month
 ```
@@ -63,7 +63,7 @@ for index, row in merged_df.iterrows():
         print(f"{brand_name} dropped out of the top 5 in the recent month.")
 ```
 
-##3. When considering average spend from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+## 3. When considering average spend from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
    
 - STEP 1: Calculate Average Spend for 'Accepted' Receipts
 
@@ -95,7 +95,7 @@ SELECT
 FROM Receipts
 WHERE rewardsReceiptStatus IN ('Accepted', 'Rejected');
 ```
-##4. When considering total number of items purchased from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+## 4. When considering total number of items purchased from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
 
 - STEP 1: Calculate Total Number of Items for 'Accepted' Receipts
 ```
@@ -127,7 +127,7 @@ FROM Receipts
 WHERE rewardsReceiptStatus IN ('Accepted', 'Rejected');
 ```
 
-##5. Which brand has the most spend among users who were created within the past 6 months?
+## 5. Which brand has the most spend among users who were created within the past 6 months?
 
 - STEP 1: Identify Users Created Within the Past 6 Months
 ```
